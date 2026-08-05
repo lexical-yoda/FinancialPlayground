@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import type { Asset, AssetCategory, ContributionRule } from '../types/plan';
 import { usePlanStore } from '../store/planStore';
 
@@ -11,7 +12,14 @@ export function AssetRow({ asset }: { asset: Asset }) {
     updateAsset(asset.id, { contributionRule: { ...asset.contributionRule, ...patch } });
 
   return (
-    <div className="entity-row">
+    <motion.div
+      layout
+      className="entity-row"
+      initial={{ opacity: 0, y: -12, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -12, scale: 0.98 }}
+      transition={{ duration: 0.22 }}
+    >
       <div className="entity-row-main">
         <input value={asset.name} onChange={(e) => updateAsset(asset.id, { name: e.target.value })} className="row-name" />
         <select value={asset.category} onChange={(e) => updateAsset(asset.id, { category: e.target.value as AssetCategory })}>
@@ -115,6 +123,6 @@ export function AssetRow({ asset }: { asset: Asset }) {
           </>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

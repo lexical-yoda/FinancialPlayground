@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { motion } from 'motion/react';
 import type { Asset, Liability } from '../types/plan';
 import type { MonthlySnapshot } from '../engine/simulate';
 import { categoryColors, liabilityColor } from '../theme/categoryColors';
+import { AnimatedNumber } from './AnimatedNumber';
+import { HudFrame } from './HudFrame';
 import { formatCompactINR, monthLabel } from '../utils/format';
 
 interface Props {
@@ -10,11 +12,11 @@ interface Props {
   liabilities: Liability[];
   goalAmount: number;
   goalMonthIndex: number | null;
+  index: number;
+  onIndexChange: (index: number) => void;
 }
 
-export function TimeSlider({ snapshots, assets, liabilities, goalAmount, goalMonthIndex }: Props) {
-  const [index, setIndex] = useState(0);
-
+export function TimeSlider({ snapshots, assets, liabilities, goalAmount, goalMonthIndex, index, onIndexChange }: Props) {
   if (snapshots.length === 0) return null;
 
   const clampedIndex = Math.min(index, snapshots.length - 1);
@@ -53,7 +55,7 @@ export function TimeSlider({ snapshots, assets, liabilities, goalAmount, goalMon
   }
 
   return (
-    <section className="time-slider">
+    <HudFrame className="time-slider">
       <div className="time-slider-header">
         <h2>Scrub through time</h2>
         <div className="time-slider-readout">
@@ -66,17 +68,23 @@ export function TimeSlider({ snapshots, assets, liabilities, goalAmount, goalMon
         min={0}
         max={snapshots.length - 1}
         value={clampedIndex}
-        onChange={(e) => setIndex(Number(e.target.value))}
+        onChange={(e) => onIndexChange(Number(e.target.value))}
         className="time-slider-input"
       />
 
       <div className="time-slider-stats">
         <div className="time-slider-stat">
           <span className="time-slider-stat-label">Progress to goal</span>
-          <span className="time-slider-stat-value">{goalPct}%</span>
+          <span className="time-slider-stat-value">
+            <AnimatedNumber value={goalPct} format={(n) => `${Math.round(n)}%`} />
+          </span>
         </div>
         <div className="time-slider-progress-track">
-          <div className="time-slider-progress-fill" style={{ width: `${goalPct}%` }} />
+          <motion.div
+            className="time-slider-progress-fill"
+            animate={{ width: `${Math.min(100, goalPct)}%` }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
+          />
         </div>
         <div className="time-slider-stat">
           <span className="time-slider-stat-label">Time remaining</span>
@@ -91,8 +99,12 @@ export function TimeSlider({ snapshots, assets, liabilities, goalAmount, goalMon
             <div key={a.id} className="time-slider-value">
               <span className="chart-tooltip-swatch" style={{ background: categoryColors[a.category] }} />
               <span className="time-slider-value-name">{a.name}</span>
-              <span className="time-slider-value-pct">{alloc.pct.toFixed(0)}%</span>
-              <span className="time-slider-value-amount">{formatCompactINR(alloc.balance)}</span>
+              <span className="time-slider-value-pct">
+                <AnimatedNumber value={alloc.pct} format={(n) => `${n.toFixed(0)}%`} />
+              </span>
+              <span className="time-slider-value-amount">
+                <AnimatedNumber value={alloc.balance} format={formatCompactINR} />
+              </span>
             </div>
           );
         })}
@@ -102,13 +114,15 @@ export function TimeSlider({ snapshots, assets, liabilities, goalAmount, goalMon
             <span className="time-slider-value-name">{l.name}</span>
             <span className="time-slider-value-pct" />
             <span className="time-slider-value-amount chart-tooltip-value--liability">
-              -{formatCompactINR(snapshot.perLiabilityBalances[l.id] ?? 0)}
+              <AnimatedNumber value={snapshot.perLiabilityBalances[l.id] ?? 0} format={(n) => `-${formatCompactINR(n)}`} />
             </span>
           </div>
         ))}
         <div className="time-slider-value time-slider-value--total">
           <span className="time-slider-value-name">Net worth</span>
-          <span className="time-slider-value-amount">{formatCompactINR(snapshot.netWorth)}</span>
+          <span className="time-slider-value-amount">
+            <AnimatedNumber value={snapshot.netWorth} format={formatCompactINR} />
+          </span>
         </div>
       </div>
 
@@ -117,10 +131,12 @@ export function TimeSlider({ snapshots, assets, liabilities, goalAmount, goalMon
           {allocations
             .filter((a) => a.pct > 0)
             .map((a) => (
-              <div
+              <motion.div
                 key={a.asset.id}
                 className="allocation-segment"
-                style={{ width: `${a.pct}%`, background: categoryColors[a.asset.category] }}
+                animate={{ width: `${a.pct}%` }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
+                style={{ background: categoryColors[a.asset.category] }}
               />
             ))}
         </div>
@@ -151,6 +167,6 @@ export function TimeSlider({ snapshots, assets, liabilities, goalAmount, goalMon
           ))}
         </div>
       )}
-    </section>
+    </HudFrame>
   );
 }

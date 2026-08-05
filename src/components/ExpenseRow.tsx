@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import type { ExpenseStream } from '../types/plan';
 import { usePlanStore } from '../store/planStore';
 
@@ -6,7 +7,13 @@ export function ExpenseRow({ expense }: { expense: ExpenseStream }) {
   const removeExpenseStream = usePlanStore((s) => s.removeExpenseStream);
 
   return (
-    <tr>
+    <motion.tr
+      layout
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2 }}
+    >
       <td>
         <input value={expense.name} onChange={(e) => updateExpenseStream(expense.id, { name: e.target.value })} />
       </td>
@@ -50,6 +57,6 @@ export function ExpenseRow({ expense }: { expense: ExpenseStream }) {
           ✕
         </button>
       </td>
-    </tr>
+    </motion.tr>
   );
 }

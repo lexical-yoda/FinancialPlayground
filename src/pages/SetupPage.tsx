@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'motion/react';
 import { usePlanStore } from '../store/planStore';
 import { AssetRow } from '../components/AssetRow';
 import { LiabilityRow } from '../components/LiabilityRow';
@@ -69,9 +70,11 @@ export function SetupPage() {
             </tr>
           </thead>
           <tbody>
-            {config.incomeStreams.map((income) => (
-              <IncomeRow key={income.id} income={income} />
-            ))}
+            <AnimatePresence initial={false}>
+              {config.incomeStreams.map((income) => (
+                <IncomeRow key={income.id} income={income} />
+              ))}
+            </AnimatePresence>
           </tbody>
         </table>
         <button className="row-add" onClick={addIncomeStream}>
@@ -93,9 +96,11 @@ export function SetupPage() {
             </tr>
           </thead>
           <tbody>
-            {config.expenseStreams.map((expense) => (
-              <ExpenseRow key={expense.id} expense={expense} />
-            ))}
+            <AnimatePresence initial={false}>
+              {config.expenseStreams.map((expense) => (
+                <ExpenseRow key={expense.id} expense={expense} />
+              ))}
+            </AnimatePresence>
           </tbody>
         </table>
         <button className="row-add" onClick={addExpenseStream}>
@@ -116,9 +121,11 @@ export function SetupPage() {
             </tr>
           </thead>
           <tbody>
-            {config.oneOffEvents.map((event) => (
-              <OneOffRow key={event.id} event={event} />
-            ))}
+            <AnimatePresence initial={false}>
+              {config.oneOffEvents.map((event) => (
+                <OneOffRow key={event.id} event={event} />
+              ))}
+            </AnimatePresence>
           </tbody>
         </table>
         <button className="row-add" onClick={addOneOffEvent}>
@@ -134,9 +141,11 @@ export function SetupPage() {
           </div>
         )}
         <div className="entity-list">
-          {config.assets.map((asset) => (
-            <AssetRow key={asset.id} asset={asset} />
-          ))}
+          <AnimatePresence initial={false}>
+            {config.assets.map((asset) => (
+              <AssetRow key={asset.id} asset={asset} />
+            ))}
+          </AnimatePresence>
         </div>
         <button className="row-add" onClick={addAsset}>
           + Add asset
@@ -146,9 +155,11 @@ export function SetupPage() {
       <section className="setup-section">
         <h2>Liabilities</h2>
         <div className="entity-list">
-          {config.liabilities.map((liability) => (
-            <LiabilityRow key={liability.id} liability={liability} />
-          ))}
+          <AnimatePresence initial={false}>
+            {config.liabilities.map((liability) => (
+              <LiabilityRow key={liability.id} liability={liability} />
+            ))}
+          </AnimatePresence>
         </div>
         <button className="row-add" onClick={addLiability}>
           + Add liability

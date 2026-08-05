@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import type { OneOffEvent } from '../types/plan';
 import { usePlanStore } from '../store/planStore';
 
@@ -6,7 +7,13 @@ export function OneOffRow({ event }: { event: OneOffEvent }) {
   const removeOneOffEvent = usePlanStore((s) => s.removeOneOffEvent);
 
   return (
-    <tr>
+    <motion.tr
+      layout
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2 }}
+    >
       <td>
         <input value={event.name} onChange={(e) => updateOneOffEvent(event.id, { name: e.target.value })} />
       </td>
@@ -48,6 +55,6 @@ export function OneOffRow({ event }: { event: OneOffEvent }) {
           ✕
         </button>
       </td>
-    </tr>
+    </motion.tr>
   );
 }

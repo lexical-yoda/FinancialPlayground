@@ -3,6 +3,7 @@ import type { Asset, Liability } from '../types/plan';
 import type { MonthlySnapshot } from '../engine/simulate';
 import { categoryColors, liabilityColor, netWorthLineColor } from '../theme/categoryColors';
 import { formatCompactINR, monthLabel } from '../utils/format';
+import { HudFrame } from './HudFrame';
 
 interface Props {
   snapshots: MonthlySnapshot[];
@@ -117,7 +118,7 @@ export function StackedAreaChart({ snapshots, assets, liabilities, goalAmount }:
   const tooltipAlign = tooltipLeftPct > 70 ? 'right' : tooltipLeftPct < 15 ? 'left' : 'center';
 
   return (
-    <div className="chart-wrap">
+    <HudFrame className="chart-wrap">
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         className="stacked-chart"
@@ -198,6 +199,6 @@ export function StackedAreaChart({ snapshots, assets, liabilities, goalAmount }:
           </div>
         </div>
       )}
-    </div>
+    </HudFrame>
   );
 }

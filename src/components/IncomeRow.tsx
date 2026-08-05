@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import type { IncomeStream } from '../types/plan';
 import { usePlanStore } from '../store/planStore';
 
@@ -6,7 +7,13 @@ export function IncomeRow({ income }: { income: IncomeStream }) {
   const removeIncomeStream = usePlanStore((s) => s.removeIncomeStream);
 
   return (
-    <tr>
+    <motion.tr
+      layout
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2 }}
+    >
       <td>
         <input value={income.name} onChange={(e) => updateIncomeStream(income.id, { name: e.target.value })} />
       </td>
@@ -38,6 +45,6 @@ export function IncomeRow({ income }: { income: IncomeStream }) {
           ✕
         </button>
       </td>
-    </tr>
+    </motion.tr>
   );
 }

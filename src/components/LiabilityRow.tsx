@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import type { PrepaymentRule } from '../types/plan';
 import type { Liability } from '../types/plan';
 import { usePlanStore } from '../store/planStore';
@@ -10,7 +11,14 @@ export function LiabilityRow({ liability }: { liability: Liability }) {
     updateLiability(liability.id, { prepaymentRule: { ...liability.prepaymentRule, ...patch } });
 
   return (
-    <div className="entity-row">
+    <motion.div
+      layout
+      className="entity-row"
+      initial={{ opacity: 0, y: -12, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -12, scale: 0.98 }}
+      transition={{ duration: 0.22 }}
+    >
       <div className="entity-row-main">
         <input value={liability.name} onChange={(e) => updateLiability(liability.id, { name: e.target.value })} className="row-name" />
         <label>
@@ -92,6 +100,6 @@ export function LiabilityRow({ liability }: { liability: Liability }) {
           </label>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
