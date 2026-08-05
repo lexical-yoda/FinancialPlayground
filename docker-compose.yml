@@ -1,0 +1,7 @@
+services:
+  financial-playground:
+    image: ghcr.io/lexical-yoda/financial-trajectory-playground:latest
+    container_name: financial-playground
+    restart: unless-stopped
+    ports:
+      - "8420:80"

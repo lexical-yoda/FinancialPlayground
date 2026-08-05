@@ -1,0 +1,105 @@
+{
+  "startYear": 2026,
+  "startMonth": 1,
+  "incomeStreams": [
+    {
+      "id": "salary",
+      "name": "Salary",
+      "monthlyAmount": 65000,
+      "annualHikePct": 8,
+      "hikeMonth": 4
+    }
+  ],
+  "expenseStreams": [
+    {
+      "id": "living",
+      "name": "Living expenses",
+      "monthlyAmount": 30000,
+      "annualGrowthPct": 4,
+      "recurrence": "monthly"
+    },
+    {
+      "id": "discretionary",
+      "name": "Entertainment / discretionary",
+      "monthlyAmount": 8000,
+      "annualGrowthPct": 0,
+      "recurrence": "monthly"
+    },
+    {
+      "id": "annual-vacation",
+      "name": "Annual vacation",
+      "monthlyAmount": 60000,
+      "annualGrowthPct": 0,
+      "recurrence": "annual_once",
+      "month": 12
+    }
+  ],
+  "oneOffEvents": [
+    {
+      "id": "life-event",
+      "name": "Life event expense bump",
+      "amountPerMonth": 20000,
+      "startsInMonthIndex": null,
+      "durationMonths": null
+    }
+  ],
+  "assets": [
+    {
+      "id": "emergency-fund",
+      "name": "Emergency fund (savings)",
+      "category": "cash",
+      "startingBalance": 40000,
+      "annualReturnPct": 3.5,
+      "compounding": "monthly",
+      "liquidity": "liquid",
+      "contributionRule": {
+        "mode": "none"
+      }
+    },
+    {
+      "id": "equity-fund",
+      "name": "Equity mutual fund",
+      "category": "equity",
+      "startingBalance": 120000,
+      "annualReturnPct": 10,
+      "compounding": "monthly",
+      "liquidity": "liquid",
+      "contributionRule": {
+        "mode": "surplus_share",
+        "surplusSharePct": 70
+      }
+    },
+    {
+      "id": "gold-fund",
+      "name": "Gold fund",
+      "category": "gold",
+      "startingBalance": 30000,
+      "annualReturnPct": 8,
+      "compounding": "monthly",
+      "liquidity": "liquid",
+      "contributionRule": {
+        "mode": "surplus_share",
+        "surplusSharePct": 30
+      }
+    },
+    {
+      "id": "recurring-deposit",
+      "name": "Recurring deposit (safety net)",
+      "category": "fd",
+      "startingBalance": 0,
+      "annualReturnPct": 6,
+      "compounding": "quarterly",
+      "liquidity": "locked",
+      "lockInMonths": 24,
+      "contributionRule": {
+        "mode": "fixed_recurring",
+        "fixedAmount": 15000,
+        "frequency": "quarterly",
+        "startMonth": 1
+      }
+    }
+  ],
+  "liabilities": [],
+  "goalAmount": 20000000,
+  "projectionYears": 15
+}
