@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# personal plan data — never publish real financial numbers
+private-plan/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
